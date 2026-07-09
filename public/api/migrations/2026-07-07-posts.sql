@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS posts (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    site_id BIGINT UNSIGNED NOT NULL,
+    post_key VARCHAR(120) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NULL,
+    cover_image VARCHAR(255) NULL,
+    author_name VARCHAR(190) NULL,
+    author_image VARCHAR(255) NULL,
+    seo_keywords TEXT NULL,
+    is_published TINYINT(1) NOT NULL DEFAULT 1,
+    sort_order INT NOT NULL DEFAULT 0,
+    published_at VARCHAR(40) NULL,
+    edited_at VARCHAR(40) NULL,
+    content_json JSON NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY posts_site_post_key_unique (site_id, post_key),
+    KEY posts_site_id_sort_index (site_id, sort_order),
+    CONSTRAINT posts_site_id_foreign FOREIGN KEY (site_id) REFERENCES sites (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
