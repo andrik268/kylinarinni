@@ -220,6 +220,7 @@ function Price({ price, contacts }) {
   const active = categories[activeIndex] || categories[0];
   const images = active?.images || [];
   const image = images[imageIndex] || images[0];
+  const activeTitle = active?.id === "antigravity" ? "Антигравитация" : active?.title || "Торт";
 
   useEffect(() => {
     setImageIndex(0);
@@ -250,7 +251,7 @@ function Price({ price, contacts }) {
     setImageIndex((current) => (current + direction + images.length) % images.length);
   }
 
-  const message = `Здравствуйте! Хочу заказать ${active?.title || "торт"}. ${active?.price || "Нужен расчет"}.`;
+  const message = `Здравствуйте! Хочу заказать ${activeTitle}. ${active?.price || "Нужен расчет"}.`;
 
   return (
     <section className="price-section" id="price">
@@ -291,7 +292,7 @@ function Price({ price, contacts }) {
         <div className="price-sheet-wrap">
           {image ? (
             <button className="price-sheet-button" type="button" onClick={() => setLightboxOpen(true)} aria-label={`Открыть прайс: ${active.title}`}>
-              <img className="price-sheet" src={image} alt={`${active.title}. ${active.description || "Прайс"}`} />
+              <img className="price-sheet" src={image} alt={`${activeTitle}. ${active.description || "Прайс"}`} />
               <span className="price-sheet-hint"><MagnifyingGlass size={18} weight="bold" /> Открыть крупнее</span>
             </button>
           ) : null}
@@ -309,7 +310,7 @@ function Price({ price, contacts }) {
             <span>{active.eyebrow}</span>
             <span>{String(activeIndex + 1).padStart(2, "0")}</span>
           </div>
-          <h3>{active.title}</h3>
+          <h3>{activeTitle}</h3>
           <strong className="price-details-value">{active.price}</strong>
           <p>{active.description}</p>
           <div className="delivery-line">
@@ -323,12 +324,12 @@ function Price({ price, contacts }) {
       </div>
 
       {lightboxOpen && image ? (
-        <div className="price-lightbox" role="dialog" aria-modal="true" aria-label={`Прайс: ${active.title}`} onClick={() => setLightboxOpen(false)}>
+        <div className="price-lightbox" role="dialog" aria-modal="true" aria-label={`Прайс: ${activeTitle}`} onClick={() => setLightboxOpen(false)}>
           <button className="lightbox-close" type="button" onClick={() => setLightboxOpen(false)} aria-label="Закрыть прайс"><X size={24} weight="bold" /></button>
           {images.length > 1 ? <button className="lightbox-arrow lightbox-arrow-left" type="button" onClick={(event) => { event.stopPropagation(); shiftImage(-1); }} aria-label="Предыдущая страница"><CaretLeft size={28} weight="bold" /></button> : null}
           <div className="lightbox-content" onClick={(event) => event.stopPropagation()}>
-            <img src={image} alt={`${active.title}. Увеличенный прайс`} />
-            <span>{active.title} / {String(imageIndex + 1).padStart(2, "0")} из {String(images.length).padStart(2, "0")}</span>
+            <img src={image} alt={`${activeTitle}. Увеличенный прайс`} />
+            <span>{activeTitle} / {String(imageIndex + 1).padStart(2, "0")} из {String(images.length).padStart(2, "0")}</span>
           </div>
           {images.length > 1 ? <button className="lightbox-arrow lightbox-arrow-right" type="button" onClick={(event) => { event.stopPropagation(); shiftImage(1); }} aria-label="Следующая страница"><CaretRight size={28} weight="bold" /></button> : null}
         </div>
