@@ -1,8 +1,6 @@
 import heroImage from "../assets/kylinarinni-hero.png";
 import menuImage from "../assets/kylinarinni-menu-display.png";
-import antigravityImage from "../assets/kylinarinni-antigravity.png";
 import masterclassImage from "../assets/kylinarinni-masterclass.png";
-import dessertSetImage from "../assets/kylinarinni-dessert-set.png";
 import price2600Image from "../assets/price/Photoroom_20260330_001133.JPG";
 import price2700ImageA from "../assets/price/Photoroom_20260330_005505.JPG";
 import price2700ImageB from "../assets/price/Photoroom_20260330_010505.JPG";
@@ -13,7 +11,7 @@ import priceDessertsImage from "../assets/price/Photoroom_20260330_190509.JPG";
 import price2900Image from "../assets/price/Photoroom_20260713_140751.PNG";
 import price3000Image from "../assets/price/Photoroom_20260713_154604.JPG";
 
-export const CMS_STORAGE_KEY = "kylinarinni-cms-data-v3";
+export const CMS_STORAGE_KEY = "kylinarinni-cms-data-v4";
 export const CMS_HISTORY_KEY = "kylinarinni-cms-history-v1";
 export const CMS_SESSION_KEY = "kylinarinni-cms-session-v1";
 export const LOCAL_LEADS_KEY = "kylinarinni-leads-v1";
@@ -48,7 +46,7 @@ export const defaultCmsData = {
     seoDescription:
       "Торты любой сложности, свадебные и детские торты, 3D и антигравитационные конструкции, выездные мастер-классы в Краснодаре.",
     isActive: true,
-    contentVersion: 3,
+    contentVersion: 4,
     blocks: [
       {
         id: "header",
@@ -63,7 +61,6 @@ export const defaultCmsData = {
           menuItems: [
             { id: "cakes", label: "Торты", href: "#services" },
             { id: "price", label: "Прайс", href: "#price" },
-            { id: "portfolio", label: "Работы", href: "#portfolio" },
             { id: "masterclass", label: "Мастер-класс", href: "#masterclass" },
             { id: "faq", label: "Ответы", href: "#faq" },
             { id: "contacts", label: "Контакты", href: "#contacts" },
@@ -215,24 +212,6 @@ export const defaultCmsData = {
         },
       },
       {
-        id: "portfolio",
-        type: "portfolio",
-        title: "Работы",
-        sortOrder: 50,
-        isActive: true,
-        content: {
-          title: "Референс можно прислать любым фото",
-          text:
-            "Выберите ближайший сценарий, отправьте фото или идею. Дальше я подберу вес, начинку и декор под ваш повод.",
-          items: [
-            { id: "a", label: "Витрина", title: "Торты и десерты", image: menuImage },
-            { id: "b", label: "Вау", title: "Антигравитация", image: antigravityImage },
-            { id: "c", label: "Сет", title: "Бенто и коробки", image: dessertSetImage },
-            { id: "d", label: "МК", title: "Украшаем вместе", image: masterclassImage },
-          ],
-        },
-      },
-      {
         id: "masterclass",
         type: "masterclass",
         title: "Мастер-класс",
@@ -341,7 +320,7 @@ export function normalizeCmsData(value) {
     }
   });
 
-  if ((next.page.contentVersion || 0) < 3) {
+  if ((next.page.contentVersion || 0) < 4) {
     const defaultsById = new Map(defaultCmsData.page.blocks.map((block) => [block.id, block]));
     next.page.blocks = next.page.blocks.map((block) => {
       const defaults = defaultsById.get(block.id);
@@ -364,7 +343,7 @@ export function normalizeCmsData(value) {
       }
       return block;
     });
-    next.page.contentVersion = 3;
+    next.page.contentVersion = 4;
   }
 
   next.page.blocks.sort((a, b) => a.sortOrder - b.sortOrder);

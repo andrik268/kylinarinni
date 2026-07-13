@@ -474,8 +474,7 @@ img {
   font-weight: 700;
 }
 
-.service-row h3,
-.work-card h3 {
+.service-row h3 {
   margin: 0;
   font-family: "Unbounded", system-ui, sans-serif;
   font-size: clamp(1.1rem, 1.6vw, 1.55rem);
@@ -764,12 +763,24 @@ img {
   width: 100%;
   margin: 30px 0 24px;
   padding: 14px 0 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
   border: 0;
   border-top: 1px solid rgba(255, 249, 241, 0.2);
   border-radius: 0;
   color: rgba(255, 249, 241, 0.82);
   background: transparent;
   font-size: 0.9rem;
+}
+
+.price-details .delivery-line svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.price-details .delivery-line span {
+  flex: 1;
 }
 
 .price-details .btn {
@@ -834,45 +845,6 @@ img {
 
 body.modal-open {
   overflow: hidden;
-}
-
-.portfolio-section {
-  padding-bottom: clamp(80px, 10vw, 130px);
-}
-
-.portfolio-strip {
-  width: min(1280px, calc(100% - 24px));
-  margin: 44px auto 0;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(220px, 1fr));
-  gap: 12px;
-}
-
-.work-card {
-  min-width: 0;
-  display: grid;
-  gap: 16px;
-}
-
-.work-card img {
-  width: 100%;
-  aspect-ratio: 0.82 / 1;
-  object-fit: cover;
-  border-radius: var(--radius);
-  box-shadow: 0 18px 48px rgba(37, 8, 18, 0.14);
-  transition: transform 220ms ease;
-}
-
-.work-card:hover img {
-  transform: translateY(-4px);
-}
-
-.work-card span {
-  display: block;
-  margin-bottom: 6px;
-  color: var(--accent);
-  font-weight: 800;
-  text-transform: uppercase;
 }
 
 .masterclass-section {
@@ -1257,7 +1229,6 @@ body.modal-open {
   }
 
   .service-row,
-  .work-card,
   .stat-card,
   .faq-item {
     transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
@@ -1327,9 +1298,6 @@ body.modal-open {
     min-width: 155px;
   }
 
-  .portfolio-strip {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (min-width: 981px) {
@@ -1441,14 +1409,9 @@ body.modal-open {
     transform: none;
   }
 
-  .portfolio-strip,
   .stats-grid,
   .contact-links {
     grid-template-columns: 1fr;
-  }
-
-  .work-card img {
-    aspect-ratio: 1.05 / 1;
   }
 
   .masterclass-grid {

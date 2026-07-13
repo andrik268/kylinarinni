@@ -102,6 +102,8 @@ function AppButton({ href, children, variant = "primary", icon: Icon = ArrowRigh
 }
 
 function FullscreenMenu({ open, onClose, header, contacts }) {
+  const menuItems = header.menuItems?.filter((item) => item.id !== "portfolio");
+
   return (
     <div className={`site-menu ${open ? "open" : ""}`} aria-hidden={!open}>
       <div className="menu-top">
@@ -120,7 +122,7 @@ function FullscreenMenu({ open, onClose, header, contacts }) {
         </figure>
 
         <nav className="menu-links" aria-label="Меню сайта">
-          {header.menuItems?.map((item) => (
+          {menuItems?.map((item) => (
             <a key={item.id} href={item.href} onClick={onClose}>
               {item.label}
             </a>
@@ -334,28 +336,6 @@ function Price({ price, contacts }) {
           {images.length > 1 ? <button className="lightbox-arrow lightbox-arrow-right" type="button" onClick={(event) => { event.stopPropagation(); shiftImage(1); }} aria-label="Следующая страница"><CaretRight size={28} weight="bold" /></button> : null}
         </div>
       ) : null}
-    </section>
-  );
-}
-
-function Portfolio({ portfolio }) {
-  return (
-    <section className="section portfolio-section" id="portfolio">
-      <div className="container section-intro compact">
-        <h2>{portfolio.title}</h2>
-        <p>{portfolio.text}</p>
-      </div>
-      <div className="portfolio-strip">
-        {portfolio.items?.map((item) => (
-          <article className="work-card" key={item.id}>
-            <img src={item.image} alt={item.title} />
-            <div>
-              <span>{item.label}</span>
-              <h3>{item.title}</h3>
-            </div>
-          </article>
-        ))}
-      </div>
     </section>
   );
 }
@@ -665,7 +645,6 @@ export function App() {
     hero: getBlock(cms, "hero"),
     services: getBlock(cms, "services"),
     price: getBlock(cms, "price"),
-    portfolio: getBlock(cms, "portfolio"),
     masterclass: getBlock(cms, "masterclass"),
     trust: getBlock(cms, "trust"),
     faq: getBlock(cms, "faq"),
@@ -680,7 +659,6 @@ export function App() {
         <Hero hero={blocks.hero} contacts={blocks.contacts} />
         <Services services={blocks.services} />
         <Price price={blocks.price} contacts={blocks.contacts} />
-        <Portfolio portfolio={blocks.portfolio} />
         <Masterclass block={blocks.masterclass} contacts={blocks.contacts} />
         <Trust trust={blocks.trust} />
         <Faq faq={blocks.faq} />
