@@ -3,8 +3,17 @@ import menuImage from "../assets/kylinarinni-menu-display.png";
 import antigravityImage from "../assets/kylinarinni-antigravity.png";
 import masterclassImage from "../assets/kylinarinni-masterclass.png";
 import dessertSetImage from "../assets/kylinarinni-dessert-set.png";
+import price2600Image from "../assets/price/Photoroom_20260330_001133.JPG";
+import price2700ImageA from "../assets/price/Photoroom_20260330_005505.JPG";
+import price2700ImageB from "../assets/price/Photoroom_20260330_010505.JPG";
+import price3100Image from "../assets/price/Photoroom_20260330_012249.JPG";
+import priceAntigravityImage from "../assets/price/Photoroom_20260330_162504.JPG";
+import priceHeartImage from "../assets/price/Photoroom_20260330_172741.JPG";
+import priceDessertsImage from "../assets/price/Photoroom_20260330_190509.JPG";
+import price2900Image from "../assets/price/Photoroom_20260713_140751.PNG";
+import price3000Image from "../assets/price/Photoroom_20260713_154604.JPG";
 
-export const CMS_STORAGE_KEY = "kylinarinni-cms-data-v2";
+export const CMS_STORAGE_KEY = "kylinarinni-cms-data-v3";
 export const CMS_HISTORY_KEY = "kylinarinni-cms-history-v1";
 export const CMS_SESSION_KEY = "kylinarinni-cms-session-v1";
 export const LOCAL_LEADS_KEY = "kylinarinni-leads-v1";
@@ -39,6 +48,7 @@ export const defaultCmsData = {
     seoDescription:
       "Торты любой сложности, свадебные и детские торты, 3D и антигравитационные конструкции, выездные мастер-классы в Краснодаре.",
     isActive: true,
+    contentVersion: 3,
     blocks: [
       {
         id: "header",
@@ -55,6 +65,7 @@ export const defaultCmsData = {
             { id: "price", label: "Прайс", href: "#price" },
             { id: "portfolio", label: "Работы", href: "#portfolio" },
             { id: "masterclass", label: "Мастер-класс", href: "#masterclass" },
+            { id: "faq", label: "Ответы", href: "#faq" },
             { id: "contacts", label: "Контакты", href: "#contacts" },
           ],
         },
@@ -76,7 +87,7 @@ export const defaultCmsData = {
             "Любой сложности: вес, декор, начинка и доставка к вашему времени.",
           primaryButtonText: "Рассчитать",
           ratingLabel: "15,5 тыс. подписчиков",
-          ratingText: "1000+ тортов за 5 лет",
+          ratingText: "1000+ тортов за 7 лет",
         },
       },
       {
@@ -124,15 +135,82 @@ export const defaultCmsData = {
         sortOrder: 40,
         isActive: true,
         content: {
-          title: "Расчет по референсу",
+          title: "Прайс без мелкого шрифта",
           text:
-            "Ориентир: от 2600 до 3100 ₽ за 1 кг. Итог зависит от начинки, сложности декора и конструкции.",
-          image: dessertSetImage,
-          imageAlt: "Набор тортов и десертов Kylinarinni",
-          complexities: [
-            { id: "basic", label: "Лаконичный", price: 2600 },
-            { id: "decor", label: "С декором", price: 2850 },
-            { id: "wow", label: "3D / вау", price: 3100 },
+            "Выберите категорию и откройте страницу прайса крупно. Начинку можно подобрать под ваш повод, а декор рассчитывается отдельно.",
+          categories: [
+            {
+              id: "cakes-2600",
+              eyebrow: "ТОРТЫ / КЛАССИКА",
+              tabLabel: "Классика",
+              title: "Начинки 2600 ₽",
+              price: "2600 ₽ / кг",
+              description: "Торты от 2 кг. Три базовые начинки: ванильная с ягодами, молочный ломтик и двойная клубника.",
+              images: [price2600Image],
+            },
+            {
+              id: "cakes-2700",
+              eyebrow: "ТОРТЫ / КЛАССИКА",
+              tabLabel: "Начинки 2700 ₽",
+              title: "Начинки 2700 ₽",
+              price: "2700 ₽ / кг",
+              description: "Молочная девочка, Сникерс, Черный лес и другие начинки из ассортимента. В категории две страницы.",
+              images: [price2700ImageA, price2700ImageB],
+            },
+            {
+              id: "cakes-2900",
+              eyebrow: "ТОРТЫ / НОВЫЕ ВКУСЫ",
+              tabLabel: "Начинки 2900 ₽",
+              title: "Начинки 2900 ₽",
+              price: "2900 ₽ / кг",
+              description: "Хрустик, банофи и сливочная малина. Подробный состав каждой начинки находится на странице прайса.",
+              images: [price2900Image],
+            },
+            {
+              id: "cakes-3000",
+              eyebrow: "ТОРТЫ / ШОКОЛАД",
+              tabLabel: "Начинки 3000 ₽",
+              title: "Начинки 3000 ₽",
+              price: "3000 ₽ / кг",
+              description: "Шоколад-манго, Рафаэлло и шоколад-малина. Декор и конструкция обсуждаются отдельно.",
+              images: [price3000Image],
+            },
+            {
+              id: "cakes-3100",
+              eyebrow: "ТОРТЫ / ПРЕМИУМ",
+              tabLabel: "Начинки 3100 ₽",
+              title: "Начинки 3100 ₽",
+              price: "3100 ₽ / кг",
+              description: "Фисташка-малина, лайм-манго и Дубайский. Подойдет, если хочется необычную начинку с выразительным вкусом.",
+              images: [price3100Image],
+            },
+            {
+              id: "antigravity",
+              eyebrow: "ОСОБЫЙ ФОРМАТ",
+              tabLabel: "Антигравитация",
+              title: "Антигравитационные торты",
+              price: "от 3500 ₽ / кг",
+              description: "Стоимость зависит от сложности конструктивной части и декора. Примеры работ собраны на странице прайса.",
+              images: [priceAntigravityImage],
+            },
+            {
+              id: "heart",
+              eyebrow: "ОСОБЫЙ ФОРМАТ",
+              tabLabel: "Торт сердце",
+              title: "Торт сердце",
+              price: "от 18 000 ₽",
+              description: "Формат для большого события: вес и итоговая стоимость рассчитываются под вашу задачу.",
+              images: [priceHeartImage],
+            },
+            {
+              id: "desserts",
+              eyebrow: "ДЕСЕРТЫ",
+              tabLabel: "Десерты",
+              title: "Десерты",
+              price: "от 1500 ₽",
+              description: "Стандартный и большой формат с начинками из ассортимента. В прайсе также указаны возможные доплаты за декор.",
+              images: [priceDessertsImage],
+            },
           ],
         },
       },
@@ -178,9 +256,9 @@ export const defaultCmsData = {
           content: {
           title: "Торт должен приехать вовремя",
           text:
-            "5 лет опыта, финалист шоу «Кондитер» с Ренатом Агзамовым, 1000+ тортов, 320 постоянных клиентов и 8+ ивент-агентств в сотрудничестве.",
+            "7 лет опыта, финалист шоу «Кондитер» с Ренатом Агзамовым, 1000+ тортов, 320 постоянных клиентов и 8+ ивент-агентств в сотрудничестве.",
           stats: [
-            { value: "5 лет", label: "опыта" },
+            { value: "7 лет", label: "опыта" },
             { value: "1000+", label: "тортов" },
             { value: "30+", label: "мастер-классов" },
             { value: "8+", label: "ивент-агентств" },
@@ -210,6 +288,16 @@ export const defaultCmsData = {
               question: "Можно провести мастер-класс дома?",
               answer:
                 "Да. Все заготовки и инструменты привозятся с собой, участники только собирают и украшают.",
+            },
+            {
+              question: "Можно выбрать любую начинку из прайса?",
+              answer:
+                "Да. Выберите подходящую категорию в прайсе и пришлите референс. Мы уточним вес, начинку, декор и дату.",
+            },
+            {
+              question: "Сколько заранее нужно оформить заказ?",
+              answer:
+                "Чем сложнее конструкция и декор, тем раньше лучше обсудить заказ. Для точной даты напишите в WhatsApp или Telegram.",
             },
           ],
         },
@@ -252,6 +340,33 @@ export function normalizeCmsData(value) {
       next.page.blocks.push(clone(block));
     }
   });
+
+  if ((next.page.contentVersion || 0) < 3) {
+    const defaultsById = new Map(defaultCmsData.page.blocks.map((block) => [block.id, block]));
+    next.page.blocks = next.page.blocks.map((block) => {
+      const defaults = defaultsById.get(block.id);
+      if (!defaults) return block;
+
+      if (block.id === "header") {
+        return { ...block, content: { ...block.content, menuItems: clone(defaults.content.menuItems) } };
+      }
+      if (block.id === "hero") {
+        return { ...block, content: { ...block.content, ratingText: defaults.content.ratingText } };
+      }
+      if (block.id === "price") {
+        return { ...block, content: { ...defaults.content, ...block.content, categories: clone(defaults.content.categories) } };
+      }
+      if (block.id === "trust") {
+        return { ...block, content: { ...block.content, text: defaults.content.text, stats: clone(defaults.content.stats) } };
+      }
+      if (block.id === "faq") {
+        return { ...block, content: { ...defaults.content, ...block.content, items: clone(defaults.content.items) } };
+      }
+      return block;
+    });
+    next.page.contentVersion = 3;
+  }
+
   next.page.blocks.sort((a, b) => a.sortOrder - b.sortOrder);
   return next;
 }

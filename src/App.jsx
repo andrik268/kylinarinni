@@ -2,22 +2,21 @@ import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   Cake,
-  Calculator,
+  CaretLeft,
   CaretDown,
+  CaretRight,
   CheckCircle,
   FloppyDisk,
   InstagramLogo,
   List,
+  MagnifyingGlass,
   MapPin,
   PaperPlaneTilt,
   Phone,
-  ShieldCheck,
   SignOut,
-  Sparkle,
   TelegramLogo,
   Truck,
   UploadSimple,
-  UsersThree,
   WarningCircle,
   WhatsappLogo,
   X,
@@ -49,10 +48,6 @@ const fallbackMessage = "Здравствуйте! Хочу рассчитать
 
 function getBlock(cms, id) {
   return cms.page.blocks.find((block) => block.id === id)?.content || {};
-}
-
-function formatRub(value) {
-  return new Intl.NumberFormat("ru-RU").format(value);
 }
 
 async function sha256(value) {
@@ -208,52 +203,136 @@ function Services({ services }) {
 }
 
 function Price({ price, contacts }) {
-  const [kg, setKg] = useState(3);
-  const [complexity, setComplexity] = useState(price.complexities?.[1]?.id || "decor");
-  const active = price.complexities?.find((item) => item.id === complexity) || price.complexities?.[0];
-  const total = kg * (active?.price || 2600);
-  const message = `Здравствуйте! Хочу рассчитать торт примерно на ${kg} кг. Сложность: ${active?.label}. Референс пришлю следующим сообщением.`;
+  const categories = price.categories?.length
+    ? price.categories
+    : [{
+        id: "legacy-price",
+        eyebrow: "РАСЧЕТ",
+        title: price.title || "Расчет по референсу",
+        price: "По запросу",
+        description: price.text || "Пришлите референс, дату и примерный вес.",
+        images: price.image ? [price.image] : [],
+      }];
+  const [activeId, setActiveId] = useState(categories[0]?.id);
+  const [imageIndex, setImageIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const activeIndex = Math.max(0, categories.findIndex((item) => item.id === activeId));
+  const active = categories[activeIndex] || categories[0];
+  const images = active?.images || [];
+  const image = images[imageIndex] || images[0];
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [active?.id]);
+
+  useEffect(() => {
+    if (!lightboxOpen) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setLightboxOpen(false);
+      if (event.key === "ArrowLeft") setImageIndex((current) => (current - 1 + images.length) % images.length);
+      if (event.key === "ArrowRight") setImageIndex((current) => (current + 1) % images.length);
+    };
+    document.body.classList.add("modal-open");
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.classList.remove("modal-open");
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [images.length, lightboxOpen]);
+
+  function selectCategory(id) {
+    setActiveId(id);
+    setImageIndex(0);
+  }
+
+  function shiftImage(direction) {
+    if (images.length < 2) return;
+    setImageIndex((current) => (current + direction + images.length) % images.length);
+  }
+
+  const message = `Здравствуйте! Хочу заказать ${active?.title || "торт"}. ${active?.price || "Нужен расчет"}.`;
 
   return (
     <section className="price-section" id="price">
-      <div className="container price-grid">
-        <div className="price-copy">
+      <div className="container price-intro-grid">
+        <div className="price-intro">
+          <p className="micro price-kicker">ПРАЙС / НАЧИНКИ / ФОРМАТЫ</p>
           <h2>{price.title}</h2>
           <p>{price.text}</p>
+          <div className="price-points">
+            <span>Торты от 2 кг</span>
+            <span>Декор рассчитывается отдельно</span>
+          </div>
+        </div>
+        <div className="price-intro-note">
+          <strong>01—{String(categories.length).padStart(2, "0")}</strong>
+          <span>Выберите подходящую категорию, а страницу прайса можно рассмотреть крупно.</span>
+        </div>
+      </div>
+
+      <div className="container price-tabs" role="tablist" aria-label="Категории прайса">
+        {categories.map((category, index) => (
+          <button
+            key={category.id}
+            className={category.id === active?.id ? "active" : ""}
+            type="button"
+            role="tab"
+            aria-selected={category.id === active?.id}
+            onClick={() => selectCategory(category.id)}
+          >
+            <small>{String(index + 1).padStart(2, "0")}</small>
+            <span>{category.tabLabel || category.title}</span>
+            <strong>{category.price}</strong>
+          </button>
+        ))}
+      </div>
+
+      <div className="container price-viewer">
+        <div className="price-sheet-wrap">
+          {image ? (
+            <button className="price-sheet-button" type="button" onClick={() => setLightboxOpen(true)} aria-label={`Открыть прайс: ${active.title}`}>
+              <img className="price-sheet" src={image} alt={`${active.title}. ${active.description || "Прайс"}`} />
+              <span className="price-sheet-hint"><MagnifyingGlass size={18} weight="bold" /> Открыть крупнее</span>
+            </button>
+          ) : null}
+          {images.length > 1 ? (
+            <div className="price-sheet-controls">
+              <button type="button" onClick={() => shiftImage(-1)} aria-label="Предыдущая страница прайса"><CaretLeft size={20} weight="bold" /></button>
+              <span>{String(imageIndex + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}</span>
+              <button type="button" onClick={() => shiftImage(1)} aria-label="Следующая страница прайса"><CaretRight size={20} weight="bold" /></button>
+            </div>
+          ) : null}
+        </div>
+
+        <aside className="price-details">
+          <div className="price-details-top">
+            <span>{active.eyebrow}</span>
+            <span>{String(activeIndex + 1).padStart(2, "0")}</span>
+          </div>
+          <h3>{active.title}</h3>
+          <strong className="price-details-value">{active.price}</strong>
+          <p>{active.description}</p>
           <div className="delivery-line">
-            <Truck size={24} weight="duotone" />
+            <Truck size={22} weight="duotone" />
             <span>От 5 кг доставляю лично в охлаждающих контейнерах.</span>
           </div>
-        </div>
-
-        <div className="calculator">
-          <div className="calc-head">
-            <Calculator size={26} weight="duotone" />
-            <strong>Быстрый ориентир</strong>
-          </div>
-          <label className="range-label">
-            <span>Вес</span>
-            <strong>{kg} кг</strong>
-          </label>
-          <input min="1" max="12" step="1" value={kg} type="range" onChange={(event) => setKg(Number(event.target.value))} />
-          <div className="complexity-tabs">
-            {price.complexities?.map((item) => (
-              <button key={item.id} className={item.id === complexity ? "active" : ""} type="button" onClick={() => setComplexity(item.id)}>
-                {item.label}
-              </button>
-            ))}
-          </div>
-          <div className="estimate">
-            <span>Ориентир</span>
-            <strong>от {formatRub(total)} ₽</strong>
-          </div>
           <AppButton href={waLink(message)} icon={WhatsappLogo}>
-            Рассчитать
+            Обсудить заказ
           </AppButton>
-        </div>
-
-        <img className="price-image" src={price.image} alt={price.imageAlt} />
+        </aside>
       </div>
+
+      {lightboxOpen && image ? (
+        <div className="price-lightbox" role="dialog" aria-modal="true" aria-label={`Прайс: ${active.title}`} onClick={() => setLightboxOpen(false)}>
+          <button className="lightbox-close" type="button" onClick={() => setLightboxOpen(false)} aria-label="Закрыть прайс"><X size={24} weight="bold" /></button>
+          {images.length > 1 ? <button className="lightbox-arrow lightbox-arrow-left" type="button" onClick={(event) => { event.stopPropagation(); shiftImage(-1); }} aria-label="Предыдущая страница"><CaretLeft size={28} weight="bold" /></button> : null}
+          <div className="lightbox-content" onClick={(event) => event.stopPropagation()}>
+            <img src={image} alt={`${active.title}. Увеличенный прайс`} />
+            <span>{active.title} / {String(imageIndex + 1).padStart(2, "0")} из {String(images.length).padStart(2, "0")}</span>
+          </div>
+          {images.length > 1 ? <button className="lightbox-arrow lightbox-arrow-right" type="button" onClick={(event) => { event.stopPropagation(); shiftImage(1); }} aria-label="Следующая страница"><CaretRight size={28} weight="bold" /></button> : null}
+        </div>
+      ) : null}
     </section>
   );
 }
