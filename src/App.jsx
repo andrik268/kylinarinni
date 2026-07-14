@@ -23,7 +23,6 @@ import {
   X,
 } from "@phosphor-icons/react";
 import { FaVk } from "react-icons/fa";
-import { SiMax } from "react-icons/si";
 import {
   ADMIN_LOGIN,
   ADMIN_PASSWORD_HASH,
@@ -47,6 +46,23 @@ import {
 } from "./apiClient.js";
 
 const fallbackMessage = "Здравствуйте! Хочу рассчитать торт по референсу.";
+const COOKIE_CONSENT_KEY = "kylinarinni-cookie-consent-v1";
+
+function MaxIcon({ size = 26, className = "" }) {
+  return (
+    <svg
+      className={`max-icon ${className}`}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M14.254 3.28a4.301 4.301 0 0 1 4.3 4.302 4.301 4.301 0 0 1-1.993 3.63 6.085 6.085 0 0 1 1.054 3.422 6.085 6.085 0 0 1-6.085 6.085 6.085 6.085 0 0 1-6.085-6.085 6.085 6.085 0 0 1 4.66-5.916 4.301 4.301 0 0 1-.152-1.136 4.301 4.301 0 0 1 4.301-4.301Zm0 1.849a2.453 2.453 0 1 0 0 4.906 2.453 2.453 0 0 0 0-4.906Zm-2.724 5.268a4.237 4.237 0 1 0 0 8.474 4.237 4.237 0 0 0 0-8.474Zm.032 2.54a1.781 1.781 0 1 1 0 3.562 1.781 1.781 0 0 1 0-3.562Z" />
+    </svg>
+  );
+}
 
 function getBlock(cms, id) {
   return cms.page.blocks.find((block) => block.id === id)?.content || {};
@@ -122,7 +138,7 @@ function MessengerModal({ open, onClose, message, contacts }) {
   const options = [
     { label: "WhatsApp", note: "Написать в WhatsApp", href: waLink(message), icon: WhatsappLogo },
     { label: "Telegram", note: "Открыть Telegram", href: contacts.telegramUrl, icon: TelegramLogo },
-    { label: "MAX", note: "Открыть MAX", href: contacts.maxUrl, icon: SiMax },
+    { label: "MAX", note: "Открыть MAX", href: contacts.maxUrl, icon: MaxIcon },
   ];
 
   return (
@@ -136,7 +152,7 @@ function MessengerModal({ open, onClose, message, contacts }) {
         <div className="messenger-options">
           {options.map(({ label, note, href, icon: Icon }) => (
             <a className="messenger-option" href={href} target="_blank" rel="noreferrer" key={label}>
-              <Icon size={26} weight={Icon === SiMax ? undefined : "regular"} />
+              <Icon size={26} weight="regular" />
               <span>
                 <strong>{label}</strong>
                 <small>{note}</small>
@@ -147,6 +163,53 @@ function MessengerModal({ open, onClose, message, contacts }) {
         </div>
       </div>
     </div>
+  );
+}
+
+function PrivacyModal({ open, onClose }) {
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+    document.body.classList.add("modal-open");
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.classList.remove("modal-open");
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [onClose, open]);
+
+  if (!open) return null;
+
+  return (
+    <div className="messenger-modal privacy-modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title" onClick={onClose}>
+      <div className="privacy-dialog" onClick={(event) => event.stopPropagation()}>
+        <button className="messenger-close" type="button" onClick={onClose} aria-label="Закрыть политику обработки данных">
+          <X size={22} weight="bold" />
+        </button>
+        <p className="micro">ДОКУМЕНТ САЙТА</p>
+        <h2 id="privacy-title">Политика обработки данных</h2>
+        <div className="privacy-copy">
+          <p>Мы бережно относимся к вашим данным. Если вы оставляете имя, телефон или сообщение, они используются только для связи с вами и подготовки расчёта заказа.</p>
+          <p>Данные не продаются и не передаются третьим лицам, кроме выбранного вами мессенджера, если вы сами переходите по ссылке для общения.</p>
+          <p>Чтобы уточнить порядок обработки или попросить удалить данные, напишите в любой удобный мессенджер или позвоните по номеру +7 918 449-90-17.</p>
+        </div>
+        <p className="privacy-date">Актуально с 14 июля 2026 года</p>
+      </div>
+    </div>
+  );
+}
+
+function CookieBanner({ onAccept, onPolicy }) {
+  return (
+    <aside className="cookie-banner" aria-label="Уведомление об использовании cookie">
+      <p>Мы используем cookie, чтобы сайт корректно работал, запоминал ваш выбор и помогал улучшать интерфейс.</p>
+      <div className="cookie-actions">
+        <button className="footer-link" type="button" onClick={onPolicy}>Политика обработки данных</button>
+        <button className="btn btn-primary" type="button" onClick={onAccept}>Принять</button>
+      </div>
+    </aside>
   );
 }
 
@@ -180,9 +243,14 @@ function FullscreenMenu({ open, onClose, header, contacts }) {
 
         <div className="menu-contacts">
           <span>Контакт</span>
-          <a href={contacts.whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a>
-          <a href={contacts.telegramUrl} target="_blank" rel="noreferrer">Telegram</a>
-          <a href={`tel:+${phoneDigits}`}>{contacts.phone}</a>
+          <div className="menu-socials">
+            <a href={contacts.whatsappUrl} target="_blank" rel="noreferrer" aria-label="WhatsApp"><WhatsappLogo size={22} />WhatsApp</a>
+            <a href={contacts.telegramUrl} target="_blank" rel="noreferrer" aria-label="Telegram"><TelegramLogo size={22} />Telegram</a>
+            <a href={contacts.maxUrl} target="_blank" rel="noreferrer" aria-label="MAX"><MaxIcon size={22} />MAX</a>
+            <a href={contacts.instagramUrl} target="_blank" rel="noreferrer" aria-label="Instagram"><InstagramLogo size={22} />Instagram</a>
+            <a href={contacts.vkUrl} target="_blank" rel="noreferrer" aria-label="VK"><FaVk size={22} />VK</a>
+          </div>
+          <a className="menu-phone" href={`tel:+${phoneDigits}`}><Phone size={18} />{contacts.phone}</a>
         </div>
       </div>
     </div>
@@ -368,7 +436,7 @@ function Price({ price, onMessenger }) {
             <Truck size={22} weight="duotone" />
             <span>От 5 кг доставляю лично в охлаждающих контейнерах.</span>
           </div>
-          <AppButton onClick={() => onMessenger(message)} icon={WhatsappLogo}>
+          <AppButton onClick={() => onMessenger(message)} icon={null}>
             Обсудить заказ
           </AppButton>
         </aside>
@@ -400,7 +468,7 @@ function Masterclass({ block, onMessenger }) {
           <div className="fact-pills">
             {block.facts?.map((fact) => <span key={fact}>{fact}</span>)}
           </div>
-          <AppButton onClick={() => onMessenger("Здравствуйте! Хочу обсудить мастер-класс.")} icon={WhatsappLogo}>
+          <AppButton onClick={() => onMessenger("Здравствуйте! Хочу обсудить мастер-класс.")} icon={null}>
             Обсудить МК
           </AppButton>
         </div>
@@ -414,17 +482,19 @@ function Trust({ trust }) {
     <section className="section trust-section">
       <div className="container trust-grid">
         <img className="trust-image" src={trust.image} alt={trust.imageAlt} />
-        <div className="trust-copy">
-          <h2>{trust.title}</h2>
-          <p>{trust.text}</p>
-        </div>
-        <div className="stats-grid">
-          {trust.stats?.map((item) => (
-            <div className="stat-card" key={item.label}>
-              <strong>{item.value}</strong>
-              <span>{item.label}</span>
-            </div>
-          ))}
+        <div className="trust-content">
+          <div className="trust-copy">
+            <h2>{trust.title}</h2>
+            <p>{trust.text}</p>
+          </div>
+          <div className="stats-grid">
+            {trust.stats?.map((item) => (
+              <div className="stat-card" key={item.label}>
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -490,7 +560,7 @@ function Contacts({ contacts, onMessenger }) {
           <div className="contact-links">
             <a href={contacts.whatsappUrl} target="_blank" rel="noreferrer"><WhatsappLogo size={24} />WhatsApp</a>
             <a href={contacts.telegramUrl} target="_blank" rel="noreferrer"><TelegramLogo size={24} />Telegram</a>
-            <a href={contacts.maxUrl} target="_blank" rel="noreferrer"><SiMax size={24} />MAX</a>
+            <a href={contacts.maxUrl} target="_blank" rel="noreferrer"><MaxIcon size={24} />MAX</a>
             <a href={`tel:+${phoneDigits}`}><Phone size={24} />{contacts.phone}</a>
             <a href={contacts.instagramUrl} target="_blank" rel="noreferrer"><InstagramLogo size={24} />Instagram</a>
             <a className="vk-link" href={contacts.vkUrl} target="_blank" rel="noreferrer"><FaVk size={25} />VK</a>
@@ -682,6 +752,14 @@ export function App() {
   const [cms, setCms] = useState(() => (typeof window === "undefined" ? clone(defaultCmsData) : loadLocalCms()));
   const [menuOpen, setMenuOpen] = useState(false);
   const [messengerMessage, setMessengerMessage] = useState("");
+  const [privacyOpen, setPrivacyOpen] = useState(false);
+  const [cookiesAccepted, setCookiesAccepted] = useState(() => {
+    try {
+      return typeof window === "undefined" || window.localStorage.getItem(COOKIE_CONSENT_KEY) === "accepted";
+    } catch {
+      return false;
+    }
+  });
 
   useEffect(() => {
     loadRemoteCms()
@@ -725,7 +803,7 @@ export function App() {
       </main>
       <footer className="footer">
         <span>Kylinarinni</span>
-        <a href={blocks.contacts.whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a>
+        <button className="footer-link" type="button" onClick={() => setPrivacyOpen(true)}>Политика обработки данных</button>
       </footer>
       <MessengerModal
         open={Boolean(messengerMessage)}
@@ -733,6 +811,20 @@ export function App() {
         contacts={blocks.contacts}
         onClose={() => setMessengerMessage("")}
       />
+      <PrivacyModal open={privacyOpen} onClose={() => setPrivacyOpen(false)} />
+      {!cookiesAccepted ? (
+        <CookieBanner
+          onAccept={() => {
+            try {
+              window.localStorage.setItem(COOKIE_CONSENT_KEY, "accepted");
+            } catch {
+              // The banner can still be dismissed when storage is unavailable.
+            }
+            setCookiesAccepted(true);
+          }}
+          onPolicy={() => setPrivacyOpen(true)}
+        />
+      ) : null}
       <AdminPanel cms={cms} setCms={setCms} />
     </div>
   );
