@@ -1806,7 +1806,7 @@ body.modal-open {
 
   .hero-copy h1 {
     max-width: 100%;
-    font-size: clamp(1.8rem, 8.3vw, 2.45rem);
+    font-size: clamp(2.25rem, 11.8vw, 3.2rem);
     line-height: 0.95;
   }
 
