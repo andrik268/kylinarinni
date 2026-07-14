@@ -150,7 +150,7 @@ function MessengerModal({ open, onClose, message, contacts }) {
         <div className="messenger-options">
           {options.map(({ label, note, href, icon: Icon }) => (
             <a className="messenger-option" href={href} target="_blank" rel="noreferrer" key={label}>
-              <Icon size={26} weight="regular" />
+              <Icon size={26} weight={Icon === MaxIcon ? undefined : "fill"} />
               <span>
                 <strong>{label}</strong>
                 <small>{note}</small>
@@ -242,8 +242,8 @@ function FullscreenMenu({ open, onClose, header, contacts }) {
         <div className="menu-contacts">
           <span>Контакт</span>
           <div className="menu-socials">
-            <a href={contacts.whatsappUrl} target="_blank" rel="noreferrer" aria-label="WhatsApp"><WhatsappLogo size={22} />WhatsApp</a>
-            <a href={contacts.telegramUrl} target="_blank" rel="noreferrer" aria-label="Telegram"><TelegramLogo size={22} />Telegram</a>
+            <a href={contacts.whatsappUrl} target="_blank" rel="noreferrer" aria-label="WhatsApp"><WhatsappLogo size={22} weight="fill" />WhatsApp</a>
+            <a href={contacts.telegramUrl} target="_blank" rel="noreferrer" aria-label="Telegram"><TelegramLogo size={22} weight="fill" />Telegram</a>
             <a href={contacts.maxUrl} target="_blank" rel="noreferrer" aria-label="MAX"><MaxIcon size={22} />MAX</a>
             <a href={contacts.instagramUrl} target="_blank" rel="noreferrer" aria-label="Instagram"><InstagramLogo size={22} />Instagram</a>
             <a href={contacts.vkUrl} target="_blank" rel="noreferrer" aria-label="VK"><FaVk size={22} />VK</a>
@@ -556,8 +556,8 @@ function Contacts({ contacts, onMessenger }) {
           <h2>{contacts.title}</h2>
           <p>{contacts.text}</p>
           <div className="contact-links">
-            <a href={contacts.whatsappUrl} target="_blank" rel="noreferrer"><WhatsappLogo size={24} />WhatsApp</a>
-            <a href={contacts.telegramUrl} target="_blank" rel="noreferrer"><TelegramLogo size={24} />Telegram</a>
+            <a href={contacts.whatsappUrl} target="_blank" rel="noreferrer"><WhatsappLogo size={24} weight="fill" />WhatsApp</a>
+            <a href={contacts.telegramUrl} target="_blank" rel="noreferrer"><TelegramLogo size={24} weight="fill" />Telegram</a>
             <a href={contacts.maxUrl} target="_blank" rel="noreferrer"><MaxIcon size={24} />MAX</a>
             <a href={`tel:+${phoneDigits}`}><Phone size={24} />{contacts.phone}</a>
             <a href={contacts.instagramUrl} target="_blank" rel="noreferrer"><InstagramLogo size={24} />Instagram</a>
@@ -802,7 +802,7 @@ export function App() {
       <footer className="footer">
         <div className="footer-brand">
           <span>Kylinarinni</span>
-          <small className="footer-requisites">ИП · ИНН</small>
+          <small className="footer-requisites">Самозанятая Свищёва Инна Алекссевна</small>
         </div>
         <div className="footer-legal">
           <button className="footer-link" type="button" onClick={() => setPrivacyOpen(true)}>Политика обработки данных</button>
