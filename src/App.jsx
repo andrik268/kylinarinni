@@ -106,7 +106,7 @@ function AppButton({ href, children, variant = "primary", icon: Icon = ArrowRigh
     return (
       <a className={className} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
         <span>{children}</span>
-        {Icon ? <Icon size={18} weight="fill" /> : null}
+        {Icon ? <Icon size={18} weight="bold" /> : null}
       </a>
     );
   }
@@ -145,7 +145,7 @@ function MessengerModal({ open, onClose, message, contacts }) {
     <div className="messenger-modal" role="dialog" aria-modal="true" aria-labelledby="messenger-title" onClick={onClose}>
       <div className="messenger-dialog" onClick={(event) => event.stopPropagation()}>
         <button className="messenger-close" type="button" onClick={onClose} aria-label="Закрыть выбор мессенджера">
-          <X size={22} weight="fill" />
+          <X size={22} weight="bold" />
         </button>
         <p className="micro">КУДА ОТПРАВИТЬ ЗАПРОС</p>
         <h2 id="messenger-title">Выберите мессенджер</h2>
@@ -157,7 +157,7 @@ function MessengerModal({ open, onClose, message, contacts }) {
                 <strong>{label}</strong>
                 <small>{note}</small>
               </span>
-              <ArrowRight size={20} weight="fill" />
+              <ArrowRight size={20} weight="bold" />
             </a>
           ))}
         </div>
@@ -186,7 +186,7 @@ function PrivacyModal({ open, onClose }) {
     <div className="messenger-modal privacy-modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title" onClick={onClose}>
       <div className="privacy-dialog" onClick={(event) => event.stopPropagation()}>
         <button className="messenger-close" type="button" onClick={onClose} aria-label="Закрыть политику обработки данных">
-          <X size={22} weight="fill" />
+          <X size={22} weight="bold" />
         </button>
         <p className="micro">ДОКУМЕНТ САЙТА</p>
         <h2 id="privacy-title">Политика обработки данных</h2>
@@ -220,7 +220,7 @@ function FullscreenMenu({ open, onClose, header, contacts }) {
     <div className={`site-menu ${open ? "open" : ""}`} aria-hidden={!open}>
       <div className="menu-top">
         <button className="icon-button menu-close" type="button" aria-label="Закрыть меню" onClick={onClose}>
-          <X size={26} weight="fill" />
+          <X size={26} weight="bold" />
         </button>
         <a className="menu-brand" href="#top" onClick={onClose}>
           {header.logoText}
@@ -261,7 +261,7 @@ function Header({ header, contacts, setMenuOpen }) {
   return (
     <header className="site-header">
       <button className="icon-button" type="button" aria-label="Открыть меню" onClick={() => setMenuOpen(true)}>
-        <List size={28} weight="fill" />
+        <List size={28} weight="bold" />
       </button>
       <a className="wordmark" href="#top">
         {header.logoText}
@@ -312,7 +312,7 @@ function Services({ services, onOpenGallery }) {
         {services.items?.map((item) => (
           <button className="service-row" type="button" onClick={() => onOpenGallery(item)} key={item.id}>
             <span>{item.number}</span>
-            <h3><span>{item.title}</span><Images size={22} weight="fill" /></h3>
+            <h3><span>{item.title}</span><Images size={22} weight="bold" /></h3>
             <p>{item.text}</p>
           </button>
         ))}
@@ -368,16 +368,16 @@ function GalleryModal({ gallery, onClose }) {
             <h2>{gallery.label}</h2>
           </div>
           <button className="gallery-close" type="button" onClick={onClose} aria-label="Закрыть галерею">
-            <X size={24} weight="fill" />
+            <X size={24} weight="bold" />
           </button>
         </div>
         <div className="gallery-stage" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
           <button className="gallery-arrow gallery-arrow-left" type="button" onClick={() => shiftImage(-1)} aria-label="Предыдущее фото">
-            <CaretLeft size={26} weight="fill" />
+            <CaretLeft size={26} weight="bold" />
           </button>
           <img src={image} alt={`${gallery.label}: работа ${activeIndex + 1}`} />
           <button className="gallery-arrow gallery-arrow-right" type="button" onClick={() => shiftImage(1)} aria-label="Следующее фото">
-            <CaretRight size={26} weight="fill" />
+            <CaretRight size={26} weight="bold" />
           </button>
         </div>
         <div className="gallery-foot">
@@ -486,14 +486,14 @@ function Price({ price, onMessenger }) {
           {image ? (
             <button className="price-sheet-button" type="button" onClick={() => setLightboxOpen(true)} aria-label={`Открыть прайс: ${active.title}`}>
               <img className="price-sheet" src={image} alt={`${activeTitle}. ${active.description || "Прайс"}`} />
-              <span className="price-sheet-hint"><MagnifyingGlass size={18} weight="fill" /> Открыть крупнее</span>
+              <span className="price-sheet-hint"><MagnifyingGlass size={18} weight="bold" /> Открыть крупнее</span>
             </button>
           ) : null}
           {images.length > 1 ? (
             <div className="price-sheet-controls">
-              <button type="button" onClick={() => shiftImage(-1)} aria-label="Предыдущая страница прайса"><CaretLeft size={20} weight="fill" /></button>
+              <button type="button" onClick={() => shiftImage(-1)} aria-label="Предыдущая страница прайса"><CaretLeft size={20} weight="bold" /></button>
               <span>{String(imageIndex + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}</span>
-              <button type="button" onClick={() => shiftImage(1)} aria-label="Следующая страница прайса"><CaretRight size={20} weight="fill" /></button>
+              <button type="button" onClick={() => shiftImage(1)} aria-label="Следующая страница прайса"><CaretRight size={20} weight="bold" /></button>
             </div>
           ) : null}
         </div>
@@ -507,7 +507,7 @@ function Price({ price, onMessenger }) {
           <strong className="price-details-value">{active.price}</strong>
           <p>{active.description}</p>
           <div className="delivery-line">
-            <Truck size={22} weight="fill" />
+            <Truck size={22} weight="duotone" />
             <span>От 5 кг доставляю лично в охлаждающих контейнерах.</span>
           </div>
           <AppButton onClick={() => onMessenger(message)} icon={null}>
@@ -518,13 +518,13 @@ function Price({ price, onMessenger }) {
 
       {lightboxOpen && image ? (
         <div className="price-lightbox" role="dialog" aria-modal="true" aria-label={`Прайс: ${activeTitle}`} onClick={() => setLightboxOpen(false)}>
-          <button className="lightbox-close" type="button" onClick={() => setLightboxOpen(false)} aria-label="Закрыть прайс"><X size={24} weight="fill" /></button>
-          {images.length > 1 ? <button className="lightbox-arrow lightbox-arrow-left" type="button" onClick={(event) => { event.stopPropagation(); shiftImage(-1); }} aria-label="Предыдущая страница"><CaretLeft size={28} weight="fill" /></button> : null}
+          <button className="lightbox-close" type="button" onClick={() => setLightboxOpen(false)} aria-label="Закрыть прайс"><X size={24} weight="bold" /></button>
+          {images.length > 1 ? <button className="lightbox-arrow lightbox-arrow-left" type="button" onClick={(event) => { event.stopPropagation(); shiftImage(-1); }} aria-label="Предыдущая страница"><CaretLeft size={28} weight="bold" /></button> : null}
           <div className="lightbox-content" onClick={(event) => event.stopPropagation()}>
             <img src={image} alt={`${activeTitle}. Увеличенный прайс`} />
             <span>{activeTitle} / {String(imageIndex + 1).padStart(2, "0")} из {String(images.length).padStart(2, "0")}</span>
           </div>
-          {images.length > 1 ? <button className="lightbox-arrow lightbox-arrow-right" type="button" onClick={(event) => { event.stopPropagation(); shiftImage(1); }} aria-label="Следующая страница"><CaretRight size={28} weight="fill" /></button> : null}
+          {images.length > 1 ? <button className="lightbox-arrow lightbox-arrow-right" type="button" onClick={(event) => { event.stopPropagation(); shiftImage(1); }} aria-label="Следующая страница"><CaretRight size={28} weight="bold" /></button> : null}
         </div>
       ) : null}
     </section>
@@ -586,7 +586,7 @@ function Faq({ faq }) {
             <article className={`faq-item ${active === index ? "open" : ""}`} key={item.question}>
               <button type="button" onClick={() => setActive(active === index ? -1 : index)}>
                 <span>{item.question}</span>
-                <CaretDown size={22} weight="fill" />
+                <CaretDown size={22} weight="bold" />
               </button>
               <p>{item.answer}</p>
             </article>
@@ -638,7 +638,7 @@ function Contacts({ contacts, onMessenger }) {
             <a href={`tel:+${phoneDigits}`}><Phone size={24} weight="fill" />{contacts.phone}</a>
             <a href={contacts.instagramUrl} target="_blank" rel="noreferrer"><InstagramLogo size={24} weight="fill" />Instagram</a>
             <a className="vk-link" href={contacts.vkUrl} target="_blank" rel="noreferrer"><FaVk size={25} />VK</a>
-            <span><MapPin size={24} weight="fill" />{contacts.city}</span>
+            <span><MapPin size={24} weight="bold" />{contacts.city}</span>
           </div>
         </div>
         <form className="lead-form" onSubmit={onSubmit}>
@@ -656,10 +656,10 @@ function Contacts({ contacts, onMessenger }) {
           </label>
           <button className="btn btn-primary" type="submit" disabled={status === "loading"}>
             <span>{status === "loading" ? "Отправляю..." : "Рассчитать"}</span>
-            <PaperPlaneTilt size={18} weight="fill" />
+            <PaperPlaneTilt size={18} weight="bold" />
           </button>
-          {status === "sent" ? <p className="form-status success"><CheckCircle size={18} weight="fill" />Заявка отправлена в CMS.</p> : null}
-          {status === "local" ? <p className="form-status"><WarningCircle size={18} weight="fill" />Локальный режим: заявка сохранена в браузере.</p> : null}
+          {status === "sent" ? <p className="form-status success"><CheckCircle size={18} weight="bold" />Заявка отправлена в CMS.</p> : null}
+          {status === "local" ? <p className="form-status"><WarningCircle size={18} weight="bold" />Локальный режим: заявка сохранена в браузере.</p> : null}
         </form>
       </div>
     </section>
@@ -759,7 +759,7 @@ function AdminPanel({ cms, setCms }) {
     <aside className="admin-panel">
       <div className="admin-head">
         <strong>CMS</strong>
-        <button type="button" onClick={() => setOpen(false)}><X size={20} weight="fill" /></button>
+        <button type="button" onClick={() => setOpen(false)}><X size={20} weight="bold" /></button>
       </div>
       {!user ? (
         <form className="admin-login" onSubmit={onLogin}>
@@ -778,7 +778,7 @@ function AdminPanel({ cms, setCms }) {
         <>
           <div className="admin-user">
             <span>{user.email}</span>
-            <button type="button" onClick={onLogout}><SignOut size={18} weight="fill" />Выйти</button>
+            <button type="button" onClick={onLogout}><SignOut size={18} weight="bold" />Выйти</button>
           </div>
           <select value={activeId} onChange={(event) => setActiveId(event.target.value)}>
             {cms.page.blocks.map((block) => <option key={block.id} value={block.id}>{block.title}</option>)}
@@ -808,12 +808,12 @@ function AdminPanel({ cms, setCms }) {
               );
             })}
             <label className="upload-control">
-              <UploadSimple size={18} weight="fill" /> Загрузить image
+              <UploadSimple size={18} weight="bold" /> Загрузить image
               <input type="file" accept="image/*" onChange={uploadImage} />
             </label>
           </div>
           <button className="admin-save" type="button" disabled={saving} onClick={save}>
-            <FloppyDisk size={18} weight="fill" /> {saving ? "Сохраняю..." : "Сохранить"}
+            <FloppyDisk size={18} weight="bold" /> {saving ? "Сохраняю..." : "Сохранить"}
           </button>
           {notice ? <p className="admin-notice">{notice}</p> : null}
         </>

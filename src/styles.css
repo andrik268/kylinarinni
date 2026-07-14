@@ -1786,16 +1786,16 @@ body.modal-open {
   }
 
   .hero-card {
-    min-height: 720px;
+    min-height: 760px;
     align-items: flex-start;
     background-color: #18090f;
-    background-position: right center;
-    background-size: auto 100%;
+    background-position: right bottom;
+    background-size: 100% 100%, auto 64%;
     background-repeat: no-repeat;
   }
 
   .hero-card::after {
-    background: linear-gradient(180deg, rgba(18, 6, 8, 0.2), rgba(18, 6, 8, 0.12) 42%, rgba(18, 6, 8, 0.48));
+    background: linear-gradient(180deg, rgba(18, 6, 8, 0.04), rgba(18, 6, 8, 0.06) 48%, rgba(18, 6, 8, 0.46));
   }
 
   .hero-copy {
@@ -1815,7 +1815,12 @@ body.modal-open {
   }
 
   .hero-copy > p:not(.micro) {
-    max-width: 300px;
+    max-width: 270px;
+    margin-top: 24px;
+  }
+
+  .hero-actions {
+    margin-top: 30px;
   }
 
   .hero-actions,
