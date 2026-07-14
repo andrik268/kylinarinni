@@ -1,17 +1,18 @@
-import heroImage from "../assets/kylinarinni-hero.png";
+import heroCakeImage from "../assets/real/hero-cake-wide.png";
 import menuImage from "../assets/kylinarinni-menu-display.png";
-import masterclassImage from "../assets/kylinarinni-masterclass.png";
+import masterclassPhoto from "../assets/real/masterclass.jpg";
+import aboutImage from "../assets/real/about-photo.png";
 import price2600Image from "../assets/price/Photoroom_20260330_001133.JPG";
 import price2700ImageA from "../assets/price/Photoroom_20260330_005505.JPG";
 import price2700ImageB from "../assets/price/Photoroom_20260330_010505.JPG";
 import price3100Image from "../assets/price/Photoroom_20260330_012249.JPG";
 import priceAntigravityImage from "../assets/price/Photoroom_20260330_162504.JPG";
 import priceHeartImage from "../assets/price/Photoroom_20260330_172741.JPG";
-import priceDessertsImage from "../assets/price/Photoroom_20260330_190509.JPG";
+import bentoPriceImage from "../assets/price/bento-price.jpg";
 import price2900Image from "../assets/price/Photoroom_20260713_140751.PNG";
 import price3000Image from "../assets/price/Photoroom_20260713_154604.JPG";
 
-export const CMS_STORAGE_KEY = "kylinarinni-cms-data-v4";
+export const CMS_STORAGE_KEY = "kylinarinni-cms-data-v5";
 export const CMS_HISTORY_KEY = "kylinarinni-cms-history-v1";
 export const CMS_SESSION_KEY = "kylinarinni-cms-session-v1";
 export const LOCAL_LEADS_KEY = "kylinarinni-leads-v1";
@@ -23,9 +24,15 @@ export const ADMIN_PASSWORD_HASH =
 export const phoneDisplay = "+7 918 449-90-17";
 export const phoneDigits = "79184499017";
 export const telegramUrl = "https://t.me/kylinarinni";
+export const maxUrl = "https://max.ru/";
 export const instagramUrl =
   "https://www.instagram.com/kylinarinni?igsh=MTR4dzVsb2lkZDlzMg%3D%3D&utm_source=qr";
 export const vkUrl = "https://vk.ru/kylinarinni";
+export const diskRoot = "https://disk.yandex.ru/d/t5vQZ82uXRenbw";
+
+export function diskFolderLink(folder) {
+  return `${diskRoot}/${encodeURIComponent(folder)}`;
+}
 
 export function waLink(message) {
   return `https://wa.me/${phoneDigits}?text=${encodeURIComponent(message)}`;
@@ -46,7 +53,7 @@ export const defaultCmsData = {
     seoDescription:
       "Торты любой сложности, свадебные и детские торты, 3D и антигравитационные конструкции, выездные мастер-классы в Краснодаре.",
     isActive: true,
-    contentVersion: 4,
+    contentVersion: 5,
     blocks: [
       {
         id: "header",
@@ -74,8 +81,8 @@ export const defaultCmsData = {
         sortOrder: 20,
         isActive: true,
         content: {
-          image: heroImage,
-          imageAlt: "Дизайнерский торт Kylinarinni на темной витрине",
+          image: heroCakeImage,
+          imageAlt: "Многоярусный свадебный торт на праздничном столе",
           overline: "Краснодар / торты / мастер-классы",
           outlineTitle: "ТОРТЫ",
           solidTitle: "НА ЗАКАЗ",
@@ -96,31 +103,70 @@ export const defaultCmsData = {
         content: {
           title: "Не просто сладкий стол. Сценография события.",
           text:
-            "Свадьба, детский праздник, корпоратив или мастер-класс. Каждый заказ собирается вокруг повода, фото и спокойной логистики.",
+            "Подбираю формат, начинку, декор и логистику под ваше событие — от первого референса до подачи.",
           items: [
             {
               id: "wedding",
               number: "01",
-              title: "Свадебные торты",
-              text: "Совпадение с эскизом, дегустации, доставка к банкету и спокойная коммуникация с организатором.",
+              title: "Свадебные",
+              text: "Полное соответствие согласованного с вами эскиза, вкус соответствующий дегустационному набору, доставка и логистика под ключ.",
+              link: diskFolderLink("свадебные"),
             },
             {
               id: "kids",
               number: "02",
-              title: "Детские и бенто",
-              text: "Тематика под возраст, аккуратный декор и эстетика, которую хочется сохранить на фото.",
+              title: "Детские",
+              text: "Разнообразие тематик, актуальный декор и эстетика в исполнении.",
+              link: diskFolderLink("детские"),
             },
             {
               id: "wow",
               number: "03",
               title: "3D и антигравитация",
-              text: "Сложные конструкции, которые держат форму и становятся главным визуальным акцентом стола.",
+              text: "Сложные конструкции, необычная подача и декор, который становится главным акцентом события.",
+              link: diskFolderLink("3 Д"),
             },
             {
-              id: "desserts",
+              id: "corporate",
               number: "04",
-              title: "Десерты и наборы",
-              text: "Капкейки, трайфлы, макаронс, пряники, кейк-попсы и леденцы в общей палитре.",
+              title: "Корпоративные",
+              text: "Сладкая часть события в стилистике бренда: корпоративные цвета, логотипы и удобная логистика.",
+              link: diskFolderLink("корпоративные"),
+            },
+            {
+              id: "graduation",
+              number: "05",
+              title: "Выпускные",
+              text: "Современный торт и десерты для выпускного, которые красиво смотрятся на фото и удобно делятся на компанию.",
+              link: diskFolderLink("выпускной"),
+            },
+            {
+              id: "mens",
+              number: "06",
+              title: "Мужские",
+              text: "Сдержанная эстетика, любимые вкусы и выразительный акцент без лишней декоративности.",
+              link: diskFolderLink("мужские"),
+            },
+            {
+              id: "women",
+              number: "07",
+              title: "Для дам",
+              text: "Деликатный декор, цветочная эстетика и композиция под настроение и формат праздника.",
+              link: diskFolderLink("Для дам"),
+            },
+            {
+              id: "family",
+              number: "08",
+              title: "Гендер пати, выписка из роддома, крестины",
+              text: "Торт и сладкая подача для важного семейного события: нежно, персонально и вовремя.",
+              link: diskFolderLink("Гендер пати,  выписка из роддома, крестины"),
+            },
+            {
+              id: "masterclasses",
+              number: "09",
+              title: "Мастер-классы",
+              text: "Выездные мастер-классы с подготовленными заготовками, инструментами и оформлением.",
+              link: diskFolderLink("мастер классы"),
             },
           ],
         },
@@ -132,9 +178,9 @@ export const defaultCmsData = {
         sortOrder: 40,
         isActive: true,
         content: {
-          title: "Прайс без мелкого шрифта",
+          title: "Вкусы и форматы",
           text:
-            "Выберите категорию и откройте страницу прайса крупно. Начинку можно подобрать под ваш повод, а декор рассчитывается отдельно.",
+            "Найдите подходящий формат, откройте прайс крупно и выберите начинку под ваш повод.",
           categories: [
             {
               id: "cakes-2600",
@@ -200,13 +246,13 @@ export const defaultCmsData = {
               images: [priceHeartImage],
             },
             {
-              id: "desserts",
-              eyebrow: "ДЕСЕРТЫ",
-              tabLabel: "Десерты",
-              title: "Десерты",
+              id: "bento",
+              eyebrow: "БЕНТО",
+              tabLabel: "Бенто",
+              title: "Бенто",
               price: "от 1500 ₽",
-              description: "Стандартный и большой формат с начинками из ассортимента. В прайсе также указаны возможные доплаты за декор.",
-              images: [priceDessertsImage],
+              description: "Стандартный бенто — 1500 ₽, большой — 2600 ₽. Начинки и доплаты за декор указаны на странице прайса.",
+              images: [bentoPriceImage],
             },
           ],
         },
@@ -221,7 +267,7 @@ export const defaultCmsData = {
           title: "Готовлю основу. Вы украшаете торт.",
           text:
             "Выездной мастер-класс без нудной теории: бисквиты, крем, начинка, столики и инструменты уже с собой.",
-          image: masterclassImage,
+          image: masterclassPhoto,
           imageAlt: "Кондитерский мастер-класс Kylinarinni",
           facts: ["3000 ₽ за человека", "без готовки", "для девичников, подростков и команд"],
         },
@@ -233,7 +279,9 @@ export const defaultCmsData = {
           sortOrder: 70,
           isActive: true,
           content: {
-          title: "Торт должен приехать вовремя",
+          title: "О мастере",
+          image: aboutImage,
+          imageAlt: "Кондитер держит праздничный торт",
           text:
             "7 лет опыта, финалист шоу «Кондитер» с Ренатом Агзамовым, 1000+ тортов, 320 постоянных клиентов и 8+ ивент-агентств в сотрудничестве.",
           stats: [
@@ -256,7 +304,7 @@ export const defaultCmsData = {
             {
               question: "Как быстро можно получить расчет?",
               answer:
-                "Пришлите референс, дату, вес и городскую локацию. По этим вводным можно быстро назвать вилку и уточнить декор.",
+                "Пришлите референс, дату, вес и локацию. По этим вводным можно быстро назвать вилку и уточнить декор.",
             },
             {
               question: "Как доставляются большие торты?",
@@ -276,7 +324,7 @@ export const defaultCmsData = {
             {
               question: "Сколько заранее нужно оформить заказ?",
               answer:
-                "Чем сложнее конструкция и декор, тем раньше лучше обсудить заказ. Для точной даты напишите в WhatsApp или Telegram.",
+                "За какое время нужно сделать заказ? Сразу как вы дочитали это предложение. Плюсы - сохранится цена, успеем проработать все пожелания, ваше внутреннее спокойствие.",
             },
           ],
         },
@@ -294,6 +342,7 @@ export const defaultCmsData = {
           phone: phoneDisplay,
           whatsappUrl: waLink("Здравствуйте! Хочу рассчитать торт по референсу."),
           telegramUrl,
+          maxUrl,
           instagramUrl,
           vkUrl,
           city: "Краснодар",
@@ -320,7 +369,7 @@ export function normalizeCmsData(value) {
     }
   });
 
-  if ((next.page.contentVersion || 0) < 4) {
+  if ((next.page.contentVersion || 0) < 5) {
     const defaultsById = new Map(defaultCmsData.page.blocks.map((block) => [block.id, block]));
     next.page.blocks = next.page.blocks.map((block) => {
       const defaults = defaultsById.get(block.id);
@@ -330,20 +379,71 @@ export function normalizeCmsData(value) {
         return { ...block, content: { ...block.content, menuItems: clone(defaults.content.menuItems) } };
       }
       if (block.id === "hero") {
-        return { ...block, content: { ...block.content, ratingText: defaults.content.ratingText } };
+        return {
+          ...block,
+          content: {
+            ...block.content,
+            image: defaults.content.image,
+            imageAlt: defaults.content.imageAlt,
+            ratingText: defaults.content.ratingText,
+          },
+        };
       }
       if (block.id === "price") {
-        return { ...block, content: { ...defaults.content, ...block.content, categories: clone(defaults.content.categories) } };
+        return {
+          ...block,
+          content: {
+            ...defaults.content,
+            ...block.content,
+            title: defaults.content.title,
+            text: defaults.content.text,
+            categories: clone(defaults.content.categories),
+          },
+        };
+      }
+      if (block.id === "services") {
+        return {
+          ...block,
+          content: {
+            ...block.content,
+            title: defaults.content.title,
+            text: defaults.content.text,
+            items: clone(defaults.content.items),
+          },
+        };
+      }
+      if (block.id === "masterclass") {
+        return {
+          ...block,
+          content: {
+            ...block.content,
+            image: defaults.content.image,
+            imageAlt: defaults.content.imageAlt,
+          },
+        };
       }
       if (block.id === "trust") {
-        return { ...block, content: { ...block.content, text: defaults.content.text, stats: clone(defaults.content.stats) } };
+        return {
+          ...block,
+          content: {
+            ...block.content,
+            title: defaults.content.title,
+            text: defaults.content.text,
+            image: defaults.content.image,
+            imageAlt: defaults.content.imageAlt,
+            stats: clone(defaults.content.stats),
+          },
+        };
       }
       if (block.id === "faq") {
         return { ...block, content: { ...defaults.content, ...block.content, items: clone(defaults.content.items) } };
       }
+      if (block.id === "contacts") {
+        return { ...block, content: { ...block.content, maxUrl: defaults.content.maxUrl } };
+      }
       return block;
     });
-    next.page.contentVersion = 4;
+    next.page.contentVersion = 5;
   }
 
   next.page.blocks.sort((a, b) => a.sortOrder - b.sortOrder);

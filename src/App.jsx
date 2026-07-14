@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
+  ArrowUpRight,
   Cake,
   CaretLeft,
   CaretDown,
@@ -22,6 +23,7 @@ import {
   X,
 } from "@phosphor-icons/react";
 import { FaVk } from "react-icons/fa";
+import { SiMax } from "react-icons/si";
 import {
   ADMIN_LOGIN,
   ADMIN_PASSWORD_HASH,
@@ -101,6 +103,53 @@ function AppButton({ href, children, variant = "primary", icon: Icon = ArrowRigh
   );
 }
 
+function MessengerModal({ open, onClose, message, contacts }) {
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+    document.body.classList.add("modal-open");
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.classList.remove("modal-open");
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [onClose, open]);
+
+  if (!open) return null;
+
+  const options = [
+    { label: "WhatsApp", note: "Написать в WhatsApp", href: waLink(message), icon: WhatsappLogo },
+    { label: "Telegram", note: "Открыть Telegram", href: contacts.telegramUrl, icon: TelegramLogo },
+    { label: "MAX", note: "Открыть MAX", href: contacts.maxUrl, icon: SiMax },
+  ];
+
+  return (
+    <div className="messenger-modal" role="dialog" aria-modal="true" aria-labelledby="messenger-title" onClick={onClose}>
+      <div className="messenger-dialog" onClick={(event) => event.stopPropagation()}>
+        <button className="messenger-close" type="button" onClick={onClose} aria-label="Закрыть выбор мессенджера">
+          <X size={22} weight="bold" />
+        </button>
+        <p className="micro">КУДА ОТПРАВИТЬ ЗАПРОС</p>
+        <h2 id="messenger-title">Выберите мессенджер</h2>
+        <div className="messenger-options">
+          {options.map(({ label, note, href, icon: Icon }) => (
+            <a className="messenger-option" href={href} target="_blank" rel="noreferrer" key={label}>
+              <Icon size={26} weight={Icon === SiMax ? undefined : "regular"} />
+              <span>
+                <strong>{label}</strong>
+                <small>{note}</small>
+              </span>
+              <ArrowRight size={20} weight="bold" />
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function FullscreenMenu({ open, onClose, header, contacts }) {
   const menuItems = header.menuItems?.filter((item) => item.id !== "portfolio");
 
@@ -159,7 +208,7 @@ function Header({ header, contacts, setMenuOpen }) {
   );
 }
 
-function Hero({ hero, contacts }) {
+function Hero({ hero, onMessenger }) {
   return (
     <section className="hero-wrap" id="top">
       <div className="hero-card" style={{ backgroundImage: `linear-gradient(90deg, rgba(18, 6, 8, .86), rgba(18, 6, 8, .52) 45%, rgba(18, 6, 8, .12)), url(${hero.image})` }}>
@@ -174,7 +223,7 @@ function Hero({ hero, contacts }) {
           </h1>
           <p>{hero.subtitle}</p>
           <div className="hero-actions">
-            <AppButton href={contacts.whatsappUrl || waLink(fallbackMessage)} icon={null}>
+            <AppButton onClick={() => onMessenger(fallbackMessage)} icon={null}>
               {hero.primaryButtonText}
             </AppButton>
           </div>
@@ -193,18 +242,18 @@ function Services({ services }) {
       </div>
       <div className="service-rows container">
         {services.items?.map((item) => (
-          <article className="service-row" key={item.id}>
+          <a className="service-row" href={item.link} target="_blank" rel="noreferrer" key={item.id}>
             <span>{item.number}</span>
-            <h3>{item.title}</h3>
+            <h3><span>{item.title}</span><ArrowUpRight size={22} weight="bold" /></h3>
             <p>{item.text}</p>
-          </article>
+          </a>
         ))}
       </div>
     </section>
   );
 }
 
-function Price({ price, contacts }) {
+function Price({ price, onMessenger }) {
   const categories = price.categories?.length
     ? price.categories
     : [{
@@ -269,7 +318,7 @@ function Price({ price, contacts }) {
         </div>
         <div className="price-intro-note">
           <strong>01—{String(categories.length).padStart(2, "0")}</strong>
-          <span>Выберите подходящую категорию, а страницу прайса можно рассмотреть крупно.</span>
+          <span>Выберите подходящую категорию — сайт подстроится под вас.</span>
         </div>
       </div>
 
@@ -319,7 +368,7 @@ function Price({ price, contacts }) {
             <Truck size={22} weight="duotone" />
             <span>От 5 кг доставляю лично в охлаждающих контейнерах.</span>
           </div>
-          <AppButton href={waLink(message)} icon={WhatsappLogo}>
+          <AppButton onClick={() => onMessenger(message)} icon={WhatsappLogo}>
             Обсудить заказ
           </AppButton>
         </aside>
@@ -340,7 +389,7 @@ function Price({ price, contacts }) {
   );
 }
 
-function Masterclass({ block, contacts }) {
+function Masterclass({ block, onMessenger }) {
   return (
     <section className="masterclass-section" id="masterclass">
       <div className="container masterclass-grid">
@@ -351,7 +400,7 @@ function Masterclass({ block, contacts }) {
           <div className="fact-pills">
             {block.facts?.map((fact) => <span key={fact}>{fact}</span>)}
           </div>
-          <AppButton href={contacts.whatsappUrl} icon={WhatsappLogo}>
+          <AppButton onClick={() => onMessenger("Здравствуйте! Хочу обсудить мастер-класс.")} icon={WhatsappLogo}>
             Обсудить МК
           </AppButton>
         </div>
@@ -364,7 +413,8 @@ function Trust({ trust }) {
   return (
     <section className="section trust-section">
       <div className="container trust-grid">
-        <div>
+        <img className="trust-image" src={trust.image} alt={trust.imageAlt} />
+        <div className="trust-copy">
           <h2>{trust.title}</h2>
           <p>{trust.text}</p>
         </div>
@@ -403,7 +453,7 @@ function Faq({ faq }) {
   );
 }
 
-function Contacts({ contacts }) {
+function Contacts({ contacts, onMessenger }) {
   const [form, setForm] = useState({ name: "", contact: "", message: "" });
   const [status, setStatus] = useState("idle");
 
@@ -417,14 +467,17 @@ function Contacts({ contacts }) {
       source: "kylinarinni-site",
       fields: { brand: "Kylinarinni" },
     };
+    const messengerMessage = `Здравствуйте! ${form.message || "Хочу рассчитать торт по референсу."}`;
     try {
       await submitLead(lead);
       setStatus("sent");
       setForm({ name: "", contact: "", message: "" });
+      onMessenger(messengerMessage);
     } catch {
       saveLocalLead(lead);
       setStatus("local");
       setForm({ name: "", contact: "", message: "" });
+      onMessenger(messengerMessage);
     }
   }
 
@@ -437,6 +490,7 @@ function Contacts({ contacts }) {
           <div className="contact-links">
             <a href={contacts.whatsappUrl} target="_blank" rel="noreferrer"><WhatsappLogo size={24} />WhatsApp</a>
             <a href={contacts.telegramUrl} target="_blank" rel="noreferrer"><TelegramLogo size={24} />Telegram</a>
+            <a href={contacts.maxUrl} target="_blank" rel="noreferrer"><SiMax size={24} />MAX</a>
             <a href={`tel:+${phoneDigits}`}><Phone size={24} />{contacts.phone}</a>
             <a href={contacts.instagramUrl} target="_blank" rel="noreferrer"><InstagramLogo size={24} />Instagram</a>
             <a className="vk-link" href={contacts.vkUrl} target="_blank" rel="noreferrer"><FaVk size={25} />VK</a>
@@ -627,6 +681,7 @@ function AdminPanel({ cms, setCms }) {
 export function App() {
   const [cms, setCms] = useState(() => (typeof window === "undefined" ? clone(defaultCmsData) : loadLocalCms()));
   const [menuOpen, setMenuOpen] = useState(false);
+  const [messengerMessage, setMessengerMessage] = useState("");
 
   useEffect(() => {
     loadRemoteCms()
@@ -651,23 +706,33 @@ export function App() {
     contacts: getBlock(cms, "contacts"),
   }), [cms]);
 
+  function openMessenger(message) {
+    setMessengerMessage(message || fallbackMessage);
+  }
+
   return (
     <div className="site-shell">
       <Header header={blocks.header} contacts={blocks.contacts} setMenuOpen={setMenuOpen} />
       <FullscreenMenu open={menuOpen} onClose={() => setMenuOpen(false)} header={blocks.header} contacts={blocks.contacts} />
       <main>
-        <Hero hero={blocks.hero} contacts={blocks.contacts} />
+        <Hero hero={blocks.hero} onMessenger={openMessenger} />
         <Services services={blocks.services} />
-        <Price price={blocks.price} contacts={blocks.contacts} />
-        <Masterclass block={blocks.masterclass} contacts={blocks.contacts} />
+        <Price price={blocks.price} onMessenger={openMessenger} />
+        <Masterclass block={blocks.masterclass} onMessenger={openMessenger} />
         <Trust trust={blocks.trust} />
         <Faq faq={blocks.faq} />
-        <Contacts contacts={blocks.contacts} />
+        <Contacts contacts={blocks.contacts} onMessenger={openMessenger} />
       </main>
       <footer className="footer">
         <span>Kylinarinni</span>
         <a href={blocks.contacts.whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a>
       </footer>
+      <MessengerModal
+        open={Boolean(messengerMessage)}
+        message={messengerMessage}
+        contacts={blocks.contacts}
+        onClose={() => setMessengerMessage("")}
+      />
       <AdminPanel cms={cms} setCms={setCms} />
     </div>
   );

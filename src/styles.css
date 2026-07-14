@@ -310,6 +310,7 @@ img {
 .hero-copy {
   position: relative;
   z-index: 1;
+  min-width: 0;
   max-width: 840px;
   padding: clamp(26px, 5vw, 74px);
   color: var(--milk);
@@ -466,9 +467,11 @@ img {
   align-items: start;
   padding: 30px 0;
   border-bottom: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
 }
 
-.service-row span {
+.service-row > span {
   color: var(--accent);
   font-family: "Unbounded", system-ui, sans-serif;
   font-weight: 700;
@@ -476,10 +479,34 @@ img {
 
 .service-row h3 {
   margin: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
   font-family: "Unbounded", system-ui, sans-serif;
   font-size: clamp(1.1rem, 1.6vw, 1.55rem);
   line-height: 1.05;
   text-transform: uppercase;
+}
+
+.service-row h3 svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: var(--accent);
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.service-row h3 span {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+}
+
+.service-row:hover h3 svg {
+  color: var(--wine);
+  transform: translate(2px, -2px);
 }
 
 .service-row p {
@@ -798,6 +825,91 @@ img {
   backdrop-filter: blur(14px);
 }
 
+.messenger-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  padding: 20px;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 3, 8, 0.78);
+  backdrop-filter: blur(14px);
+}
+
+.messenger-dialog {
+  position: relative;
+  width: min(520px, 100%);
+  padding: clamp(24px, 5vw, 42px);
+  border: 1px solid rgba(255, 249, 241, 0.22);
+  border-radius: var(--radius);
+  color: var(--milk);
+  background:
+    linear-gradient(135deg, rgba(255, 249, 241, 0.08), transparent 38%),
+    var(--wine);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+}
+
+.messenger-dialog h2 {
+  margin: 12px 0 24px;
+  font-family: "Unbounded", system-ui, sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2.7rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.messenger-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 249, 241, 0.28);
+  border-radius: 50%;
+  color: var(--milk);
+  background: transparent;
+  cursor: pointer;
+}
+
+.messenger-options {
+  display: grid;
+  gap: 10px;
+}
+
+.messenger-option {
+  min-height: 70px;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(255, 249, 241, 0.22);
+  border-radius: var(--radius);
+  color: var(--milk);
+  background: rgba(255, 249, 241, 0.08);
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.messenger-option:hover {
+  border-color: var(--rose);
+  background: rgba(255, 249, 241, 0.14);
+  transform: translateY(-1px);
+}
+
+.messenger-option > span {
+  display: grid;
+  gap: 3px;
+}
+
+.messenger-option strong {
+  font-size: 1rem;
+}
+
+.messenger-option small {
+  color: rgba(255, 249, 241, 0.68);
+}
+
 .lightbox-content {
   max-width: min(760px, calc(100vw - 120px));
   max-height: calc(100dvh - 48px);
@@ -894,9 +1006,21 @@ body.modal-open {
 
 .trust-grid {
   display: grid;
-  grid-template-columns: minmax(280px, 0.9fr) 1.1fr;
+  grid-template-columns: minmax(190px, 0.62fr) minmax(240px, 0.78fr) 1fr;
   gap: clamp(26px, 5vw, 70px);
   align-items: start;
+}
+
+.trust-image {
+  width: 100%;
+  aspect-ratio: 0.78 / 1;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.trust-copy {
+  align-self: center;
 }
 
 .stats-grid {
@@ -1336,16 +1460,26 @@ body.modal-open {
 
   .hero-card {
     min-height: 660px;
-    background-position: 60% center;
+    background-position: 40% center;
   }
 
   .hero-copy {
+    width: 100%;
     padding: 24px;
   }
 
   .hero-copy h1 {
-    font-size: clamp(2.35rem, 13vw, 4rem);
-    line-height: 0.9;
+    max-width: 100%;
+    font-size: clamp(1.8rem, 8.3vw, 2.45rem);
+    line-height: 0.95;
+  }
+
+  .hero-copy h1 span {
+    display: block;
+  }
+
+  .hero-copy > p:not(.micro) {
+    max-width: 300px;
   }
 
   .hero-actions,
