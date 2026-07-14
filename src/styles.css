@@ -949,6 +949,7 @@ img {
 .max-icon {
   display: block;
   flex: 0 0 auto;
+  object-fit: contain;
 }
 
 .privacy-dialog {
@@ -1347,6 +1348,31 @@ body.modal-open {
   color: var(--ink-soft);
 }
 
+.footer-brand,
+.footer-legal {
+  display: grid;
+  gap: 7px;
+}
+
+.footer-requisites {
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.footer-legal {
+  justify-items: end;
+  max-width: 720px;
+  text-align: right;
+}
+
+.footer-disclaimer {
+  max-width: 70ch;
+  color: rgba(37, 8, 18, 0.58);
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
 .footer a {
   font-weight: 800;
 }
@@ -1714,6 +1740,11 @@ body.modal-open {
     align-items: flex-start;
     gap: 10px;
     flex-direction: column;
+  }
+
+  .footer-legal {
+    justify-items: start;
+    text-align: left;
   }
 
   .cookie-banner {

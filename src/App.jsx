@@ -23,6 +23,7 @@ import {
   X,
 } from "@phosphor-icons/react";
 import { FaVk } from "react-icons/fa";
+import maxLogo from "../assets/brand/max-logo.svg";
 import {
   ADMIN_LOGIN,
   ADMIN_PASSWORD_HASH,
@@ -50,17 +51,14 @@ const COOKIE_CONSENT_KEY = "kylinarinni-cookie-consent-v1";
 
 function MaxIcon({ size = 26, className = "" }) {
   return (
-    <svg
+    <img
       className={`max-icon ${className}`}
+      src={maxLogo}
       width={size}
       height={size}
-      viewBox="0 0 24 24"
-      fill="currentColor"
+      alt=""
       aria-hidden="true"
-      focusable="false"
-    >
-      <path d="M14.254 3.28a4.301 4.301 0 0 1 4.3 4.302 4.301 4.301 0 0 1-1.993 3.63 6.085 6.085 0 0 1 1.054 3.422 6.085 6.085 0 0 1-6.085 6.085 6.085 6.085 0 0 1-6.085-6.085 6.085 6.085 0 0 1 4.66-5.916 4.301 4.301 0 0 1-.152-1.136 4.301 4.301 0 0 1 4.301-4.301Zm0 1.849a2.453 2.453 0 1 0 0 4.906 2.453 2.453 0 0 0 0-4.906Zm-2.724 5.268a4.237 4.237 0 1 0 0 8.474 4.237 4.237 0 0 0 0-8.474Zm.032 2.54a1.781 1.781 0 1 1 0 3.562 1.781 1.781 0 0 1 0-3.562Z" />
-    </svg>
+    />
   );
 }
 
@@ -802,8 +800,14 @@ export function App() {
         <Contacts contacts={blocks.contacts} onMessenger={openMessenger} />
       </main>
       <footer className="footer">
-        <span>Kylinarinni</span>
-        <button className="footer-link" type="button" onClick={() => setPrivacyOpen(true)}>Политика обработки данных</button>
+        <div className="footer-brand">
+          <span>Kylinarinni</span>
+          <small className="footer-requisites">ИП · ИНН</small>
+        </div>
+        <div className="footer-legal">
+          <button className="footer-link" type="button" onClick={() => setPrivacyOpen(true)}>Политика обработки данных</button>
+          <small className="footer-disclaimer">* Meta Platforms Inc. признана экстремистской организацией, её деятельность запрещена на территории РФ.</small>
+        </div>
       </footer>
       <MessengerModal
         open={Boolean(messengerMessage)}
