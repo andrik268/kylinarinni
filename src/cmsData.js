@@ -1,16 +1,17 @@
-import heroCakeImage from "../assets/real/hero-cake-wide.png";
-import menuImage from "../assets/kylinarinni-menu-display.png";
-import masterclassPhoto from "../assets/real/masterclass.jpg";
-import aboutImage from "../assets/real/about-photo.png";
+import heroCakeImage from "../assets/real/client-hero-IMG_0597.JPG";
+import masterclassPhoto from "../assets/real/client-masterclass-IMG_1394.JPG";
+import aboutImage from "../assets/real/client-about-IMG_0069.JPG";
 import price2600Image from "../assets/price/Photoroom_20260330_001133.JPG";
 import price2700ImageA from "../assets/price/Photoroom_20260330_005505.JPG";
 import price2700ImageB from "../assets/price/Photoroom_20260330_010505.JPG";
 import price3100Image from "../assets/price/Photoroom_20260330_012249.JPG";
 import priceAntigravityImage from "../assets/price/Photoroom_20260330_162504.JPG";
 import priceHeartImage from "../assets/price/Photoroom_20260330_172741.JPG";
-import bentoPriceImage from "../assets/price/bento-price.jpg";
+import bentoPriceImage from "../assets/price/Photoroom_20260713_202338.JPG";
 import price2900Image from "../assets/price/Photoroom_20260713_140751.PNG";
 import price3000Image from "../assets/price/Photoroom_20260713_154604.JPG";
+
+const menuImage = "/gallery/wedding/03.jpg";
 
 export const CMS_STORAGE_KEY = "kylinarinni-cms-data-v5";
 export const CMS_HISTORY_KEY = "kylinarinni-cms-history-v1";
