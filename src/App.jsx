@@ -38,6 +38,7 @@ import {
   waLink,
 } from "./cmsData.js";
 import { serviceGallery } from "./galleryData.js";
+import { AdminPanel, LoginScreen } from "./Admin.jsx";
 import {
   getRemoteSession,
   loadRemoteCms,
@@ -666,7 +667,7 @@ function Contacts({ contacts, onMessenger }) {
   );
 }
 
-function AdminPanel({ cms, setCms }) {
+function LegacyAdminPanel({ cms, setCms }) {
   const [open, setOpen] = useState(() => window.location.search.includes("admin=1") || window.location.hash === "#admin");
   const [user, setUser] = useState(loadLocalSession);
   const [login, setLogin] = useState(ADMIN_LOGIN);
@@ -824,6 +825,7 @@ function AdminPanel({ cms, setCms }) {
 
 export function App() {
   const [cms, setCms] = useState(() => (typeof window === "undefined" ? clone(defaultCmsData) : loadLocalCms()));
+  const [adminSession, setAdminSession] = useState(() => (typeof window === "undefined" ? null : loadLocalSession()));
   const [menuOpen, setMenuOpen] = useState(false);
   const [messengerMessage, setMessengerMessage] = useState("");
   const [activeGallery, setActiveGallery] = useState(null);
@@ -847,6 +849,46 @@ export function App() {
       })
       .catch(() => {});
   }, []);
+
+  const adminMode = typeof window !== "undefined" && (window.location.search.includes("admin=1") || window.location.hash === "#admin");
+
+  useEffect(() => {
+    if (!adminMode) return;
+    getRemoteSession()
+      .then((session) => {
+        if (session) {
+          setAdminSession(session);
+          window.localStorage.setItem(CMS_SESSION_KEY, JSON.stringify(session));
+        }
+      })
+      .catch(() => {});
+  }, [adminMode]);
+
+  if (adminMode) {
+    if (!adminSession) {
+      return <LoginScreen onLogin={(session) => {
+        setAdminSession(session);
+        window.localStorage.setItem(CMS_SESSION_KEY, JSON.stringify(session));
+      }} />;
+    }
+
+    return (
+      <AdminPanel
+        data={cms}
+        setData={(next) => {
+          const normalized = normalizeCmsData(typeof next === "function" ? next(cms) : next);
+          setCms(normalized);
+          saveLocalCms(normalized);
+        }}
+        onLogout={async () => {
+          await logoutRemote().catch(() => {});
+          window.localStorage.removeItem(CMS_SESSION_KEY);
+          setAdminSession(null);
+        }}
+        onViewSite={() => { window.location.assign(window.location.pathname); }}
+      />
+    );
+  }
 
   const blocks = useMemo(() => ({
     header: getBlock(cms, "header"),
@@ -912,7 +954,6 @@ export function App() {
           onPolicy={() => setPrivacyOpen(true)}
         />
       ) : null}
-      <AdminPanel cms={cms} setCms={setCms} />
     </div>
   );
 }

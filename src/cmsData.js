@@ -357,6 +357,12 @@ export function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+export const cloneCmsData = clone;
+
+export function getBlock(data, id) {
+  return data?.page?.blocks?.find((block) => block.id === id) || null;
+}
+
 export function normalizeCmsData(value) {
   if (!value?.page?.blocks || value?.site?.id !== defaultCmsData.site.id) {
     return clone(defaultCmsData);
